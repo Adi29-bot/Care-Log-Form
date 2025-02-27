@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import Creatable from "react-select/creatable";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../images/logo.jpg";
-import ScrollButton from "./ScrollButton";
+import ScrollButton from "./scrollbutton";
 import ServiceUser from "./intro";
 import ParentsSection from "./parents-carer";
 import MoodSection from "./moodsection";
