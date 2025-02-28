@@ -116,39 +116,11 @@ td {
     overflow: visible !important;
   }
 
-  /* h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    orphans: 3;
-    widows: 3;
-  } */
-
-  /* Office Use Section */
-  .office-use {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-
-  .office-use .col-md-4 {
-    flex: 1;
-    margin: 0px;
-  }
-
-  .office-use .col-md-4:first-child:last-child {
-    margin-left: -150px;
-    margin-top: 40px;
-    width: 100% !important;
-  }
-
   /* Style for the activity cards */
   .activities-section .row {
     display: flex;
     justify-content: space-between;
+    color: rgb(0, 121, 80);
   }
 
   .activities-section .col-md-6 {
