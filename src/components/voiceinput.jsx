@@ -14,21 +14,18 @@ const SpeechToText = ({ onTextChange }) => {
 
   const toggleListening = () => {
     if (isListening) {
-      // Stop listening
       speechRecognition.stop();
       setIsListening(false);
-      setSpeechRecognition(null); // Reset the recognition instance
+      setSpeechRecognition(null);
     } else {
-      // Create a new instance of SpeechRecognition
       const recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.lang = "en-GB";
 
       recognition.onresult = (event) => {
-        // Process only final results
         const transcript = Array.from(event.results)
-          .filter((result) => result.isFinal) // Only get final results
+          .filter((result) => result.isFinal)
           .map((result) => result[0].transcript)
           .join(" ");
 
@@ -43,12 +40,12 @@ const SpeechToText = ({ onTextChange }) => {
 
       recognition.onend = () => {
         setIsListening(false);
-        setSpeechRecognition(null); // Reset the recognition instance
+        setSpeechRecognition(null);
       };
 
       recognition.start();
       setIsListening(true);
-      setSpeechRecognition(recognition); // Set the new recognition instance
+      setSpeechRecognition(recognition);
     }
   };
 
