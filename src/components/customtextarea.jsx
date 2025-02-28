@@ -4,6 +4,18 @@ import SpeechToText from "./voiceinput";
 const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placeholder }) => {
   const [text, setText] = useState(watch(fieldName) || "");
 
+  useEffect(() => {
+    setText(watch(fieldName) || "");
+  }, [watch(fieldName)]);
+
+  const handleSpeechInput = (speechText) => {
+    if (!speechText.trim()) return; // Avoid empty input
+
+    const newText = text ? `${text} ${speechText}` : speechText; // Append speech text
+    setText(newText);
+    setValue(fieldName, newText);
+  };
+
   const handleTextChange = (e) => {
     const value = e.target.value;
     setText(value);
@@ -41,7 +53,7 @@ const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placehol
       />
       <div className='print-textarea d-none d-print-block'>{text || "No notes provided"}</div>
 
-      <SpeechToText className='mt-3' onTextChange={(text) => setValue(fieldName, text)} />
+      <SpeechToText className='mt-3' onTextChange={handleSpeechInput} />
       {errors[fieldName] && <span className='text-danger'>{errors[fieldName].message}</span>}
     </div>
   );
