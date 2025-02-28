@@ -7,7 +7,7 @@ const SpeechToText = ({ onTextChange }) => {
   const [speechRecognition, setSpeechRecognition] = useState(null);
 
   useEffect(() => {
-    if (!("webkitSpeechRecognition" in window)) {
+    if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
       alert("Speech recognition is not supported in this browser.");
     }
   }, []);
@@ -19,8 +19,8 @@ const SpeechToText = ({ onTextChange }) => {
       setIsListening(false);
       setSpeechRecognition(null); // Reset the recognition instance
     } else {
-      // Create a new instance of SpeechRecognition
-      const recognition = new webkitSpeechRecognition();
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.lang = "en-UK";
