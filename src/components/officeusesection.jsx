@@ -29,22 +29,7 @@ const OfficeUseSection = ({ register, errors, control }) => {
                 <input type='date' className='form-control' {...register(`officeUseEntries.${staffIndex}.clientDate`, { required: "Please select a date" })} />
                 {errors.officeUseEntries?.[staffIndex]?.clientDate && <span className='text-danger'>{errors.officeUseEntries[staffIndex].clientDate.message}</span>}
               </div>
-              <h5 className='mt-1'>Daily Log Signed & Typed By</h5>
-              <div className='form-group'>
-                <label>Print Full Name</label>
-                <input type='text' className='form-control' {...register(`officeUseEntries.${staffIndex}.logName`, { required: "Please enter a name" })} />
-                {errors.officeUseEntries?.[staffIndex]?.logName && <span className='text-danger'>{errors.officeUseEntries[staffIndex].logName.message}</span>}
-              </div>
-              <div className='form-group'>
-                <label>Signature</label>
-                <input type='text' className='form-control' {...register(`officeUseEntries.${staffIndex}.logSignature`, { required: "Signature is required" })} />
-                {errors.officeUseEntries?.[staffIndex]?.logSignature && <span className='text-danger'>{errors.officeUseEntries[staffIndex].logSignature.message}</span>}
-              </div>
-              <div className='form-group'>
-                <label>Date</label>
-                <input type='date' className='form-control' {...register(`officeUseEntries.${staffIndex}.logDate`, { required: "Please select a date" })} />
-                {errors.officeUseEntries?.[staffIndex]?.logDate && <span className='text-danger'>{errors.officeUseEntries[staffIndex].logDate.message}</span>}
-              </div>
+
               <button type='button' className='btn btn-danger btn-sm mt-2' onClick={() => removeStaff(staffIndex)}>
                 Remove
               </button>
