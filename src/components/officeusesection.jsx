@@ -37,7 +37,7 @@ const OfficeUseSection = ({ register, errors, control }) => {
           </div>
         ))}
       </div>
-      <button type='button' className='btn btn-secondary btn-sm' onClick={() => appendStaff({})}>
+      <button type='button' className='btn btn-outline-dark btn-sm' onClick={() => appendStaff({})}>
         Add Staff Entry
       </button>
     </div>
