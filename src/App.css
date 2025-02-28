@@ -120,7 +120,6 @@ td {
   .activities-section .row {
     display: flex;
     justify-content: space-between;
-    color: rgb(0, 121, 80);
   }
 
   .activities-section .col-md-6 {
