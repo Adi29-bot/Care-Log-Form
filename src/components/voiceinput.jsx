@@ -9,7 +9,17 @@ const SpeechToText = ({ onTextChange }) => {
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
       alert("Speech recognition is not supported in this browser.");
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (isListening) {
+      // Stop listening
+      speechRecognition.stop();
+      setIsListening(false);
+      setSpeechRecognition(null); // Reset the recognition instance
     } else {
+      // Create a new instance of SpeechRecognition
       const recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
@@ -28,20 +38,12 @@ const SpeechToText = ({ onTextChange }) => {
 
       recognition.onend = () => {
         setIsListening(false);
+        setSpeechRecognition(null); // Reset the recognition instance
       };
 
-      setSpeechRecognition(recognition);
-    }
-  }, [onTextChange]);
-
-  const toggleListening = () => {
-    if (speechRecognition) {
-      if (isListening) {
-        speechRecognition.stop();
-      } else {
-        speechRecognition.start();
-      }
-      setIsListening(!isListening);
+      recognition.start();
+      setIsListening(true);
+      setSpeechRecognition(recognition); // Set the new recognition instance
     }
   };
 
