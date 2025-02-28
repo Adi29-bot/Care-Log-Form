@@ -7,7 +7,7 @@ const SpeechToText = ({ onTextChange }) => {
   const [speechRecognition, setSpeechRecognition] = useState(null);
 
   useEffect(() => {
-    if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
+    if (!("webkitSpeechRecognition" in window)) {
       alert("Speech recognition is not supported in this browser.");
     }
   }, []);
@@ -19,17 +19,22 @@ const SpeechToText = ({ onTextChange }) => {
       setIsListening(false);
       setSpeechRecognition(null); // Reset the recognition instance
     } else {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
+      // Create a new instance of SpeechRecognition
+      const recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = "en-UK";
+      recognition.lang = "en-GB";
 
       recognition.onresult = (event) => {
+        // Process only final results
         const transcript = Array.from(event.results)
+          .filter((result) => result.isFinal) // Only get final results
           .map((result) => result[0].transcript)
-          .join("");
-        onTextChange(transcript);
+          .join(" ");
+
+        if (transcript) {
+          onTextChange(transcript);
+        }
       };
 
       recognition.onerror = (event) => {
