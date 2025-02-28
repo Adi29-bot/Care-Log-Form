@@ -151,7 +151,7 @@ const DailyLogForm = () => {
       <OfficeUseSection register={register} errors={errors} control={control} />
 
       {/* Buttons to Save, Download, Print, and Reset */}
-      <div className='mt-3 d-flex justify-content-end'>
+      <div className='mt-3 d-flex justify-content-center'>
         <button type='button' className='btn btn-primary' onClick={handleSave}>
           Save
         </button>
