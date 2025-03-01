@@ -6,13 +6,24 @@ const SpeechToText = ({ onTextChange }) => {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
   const lastTranscript = useRef("");
-  const isManuallyStopped = useRef(false); // Track manual stop
-  const debounceTimeout = useRef(null); // For debouncing
+  const isManuallyStopped = useRef(false);
+
+  const mobileAndTabletCheck = () => {
+    return /android|ipad|iphone|ipod|blackberry|iemobile|opera mini|windows phone/i.test(navigator.userAgent);
+  };
+
+  const isMobileOrTablet = mobileAndTabletCheck();
 
   useEffect(() => {
     if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
       alert("Speech recognition is not supported in this browser.");
     }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
   }, []);
 
   const startListening = () => {
@@ -20,43 +31,46 @@ const SpeechToText = ({ onTextChange }) => {
       recognitionRef.current.stop();
     }
 
-    isManuallyStopped.current = false; // Reset manual stop flag
+    isManuallyStopped.current = false;
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true; // Allow interim results for better responsiveness
+    recognition.continuous = !isMobileOrTablet;
+    recognition.interimResults = true;
     recognition.lang = "en-GB";
 
     recognition.onresult = (event) => {
-      const transcript = Array.from(event.results)
-        .map((result) => result[0].transcript)
-        .join(" ");
+      let interimTranscripts = "";
+      let finalTranscripts = "";
 
-      // Only update if the transcript has changed
-      if (transcript && transcript !== lastTranscript.current) {
-        lastTranscript.current = transcript;
-
-        // Clear the previous timeout if it exists
-        if (debounceTimeout.current) {
-          clearTimeout(debounceTimeout.current);
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscripts += event.results[i][0].transcript;
+        } else {
+          interimTranscripts += event.results[i][0].transcript;
         }
+      }
 
-        // Set a new timeout to update the text after a short delay
-        debounceTimeout.current = setTimeout(() => {
-          onTextChange(transcript); // Pass the new transcript to the parent
-        }, 500); // Adjust the delay as needed
+      if (finalTranscripts) {
+        lastTranscript.current = finalTranscripts;
+        onTextChange(finalTranscripts);
+        if (!isMobileOrTablet) {
+          recognition.stop();
+        }
+      } else if (interimTranscripts) {
+        lastTranscript.current = interimTranscripts;
       }
     };
 
     recognition.onerror = (event) => {
       console.error("Speech recognition error:", event.error);
       setIsListening(false);
+      alert("An error occurred during speech recognition. Please try again.");
     };
 
     recognition.onend = () => {
       if (!isManuallyStopped.current) {
-        recognition.start(); // Restart only if the user didn't manually stop it
+        recognition.start();
       }
     };
 
@@ -66,19 +80,15 @@ const SpeechToText = ({ onTextChange }) => {
   };
 
   const stopListening = () => {
-    isManuallyStopped.current = true; // Mark as manually stopped
+    isManuallyStopped.current = true;
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
     setIsListening(false);
-    // Clear the debounce timeout when stopping
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
   };
 
   return (
-    <button type='button' className='btn btn-primary mt-2' onClick={isListening ? stopListening : startListening}>
+    <button type='button' className='btn btn-primary mt-2' onClick={isListening ? stopListening : startListening} aria-label={isListening ? "Stop listening" : "Start listening"}>
       <FontAwesomeIcon icon={isListening ? faStop : faMicrophone} />
     </button>
   );
