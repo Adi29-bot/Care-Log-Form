@@ -34,6 +34,9 @@ body {
   box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
 
+.opaque-button {
+  opacity: 0.5;
+}
 textarea {
   overflow: auto;
   white-space: normal;

@@ -65,10 +65,10 @@ const MedicationSection = ({ showSections, handleToggle, register, errors, contr
                   </td>
 
                   <td>
-                    <input type='text' className='form-control' style={{ width: "400px" }} {...register(`medicineEntries.${index}.notes`)} />
+                    <input type='text' className='form-control' {...register(`medicineEntries.${index}.notes`)} />
                   </td>
 
-                  <td className='text-center d-flex justify-content-center' style={{ padding: "12px" }}>
+                  <td className='text-center d-flex justify-content-center' style={{ padding: "36px" }}>
                     <button type='button' className='btn btn-danger btn-sm' onClick={() => removeMedicine(index)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </button>

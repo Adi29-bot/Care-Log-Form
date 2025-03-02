@@ -26,7 +26,7 @@ const PersonalCareSection = ({ register, errors, showSections, handleToggle, ren
           <label>
             <strong>Type of Care</strong>
           </label>
-          <div className='row'>{renderCheckboxes(["Showering🚿", "Shaving🪒", "Hair Drying💇‍♀️", "Brushing Teeth🦷", "Clothes Changing👕", "Hair Cut✂️"], "care", "At least one checkbox must be selected")}</div>
+          <div className='row'>{renderCheckboxes(["Showering🚿", "Shaving🪒", "Hair Drying💨", "Brushing Teeth🦷", "Clothes Changing👕", "Hair Cut✂️"], "care", "At least one checkbox must be selected")}</div>
         </div>
       )}
 

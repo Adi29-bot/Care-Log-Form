@@ -61,7 +61,7 @@ const PadChangeSection = ({ showSections, handleToggle, register, errors, contro
                     <input type='time' className='form-control' {...register(`padChangeEntries.${index}.time`, { required: "Time is required" })} />
                     {errors.padChangeEntries?.[index]?.time && <span className='text-danger'>{errors.padChangeEntries[index].time.message}</span>}
                   </td>
-                  <td className='text-center d-flex justify-content-center' style={{ padding: "12px" }}>
+                  <td className='text-center d-flex justify-content-center' style={{ padding: "25px" }}>
                     <button type='button' className='btn btn-danger btn-sm' onClick={() => removePad(index)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </button>

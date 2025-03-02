@@ -27,7 +27,7 @@ const ScrollButton = () => {
   };
 
   return (
-    <button type='button' className='btn btn-primary position-fixed bottom-0 end-0 m-3 ' onClick={scrollTo}>
+    <button type='button' className='btn btn-primary position-fixed bottom-0 end-0 m-3 opaque-button' onClick={scrollTo}>
       <FontAwesomeIcon icon={isAtTop ? faArrowDown : faArrowUp} />
     </button>
   );

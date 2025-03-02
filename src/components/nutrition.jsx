@@ -96,7 +96,7 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
                       <input type='time' className='form-control' {...register(`liquidEntries.${index}.time`, { required: "Time is required" })} />
                       {errors.liquidEntries?.[index]?.time && <span className='text-danger'>{errors.liquidEntries[index].time.message}</span>}
                     </td>
-                    <td className='text-center d-flex justify-content-center' style={{ padding: "12px" }}>
+                    <td className='text-center d-flex justify-content-center' style={{ padding: "25px" }}>
                       <button type='button' className='btn btn-danger btn-sm' onClick={() => removeLiquid(index)}>
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>
@@ -142,7 +142,7 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
                 <div className='d-flex flex-wrap align-items-center gap-3'>
                   {["fully", "partially", "none"].map((amount, index) => (
                     <div className='form-check' key={index}>
-                      <input className='form-check-input' type='radio' value={amount} {...register("lunchAmount", { required: "Please select an amount eaten" })} />
+                      <input className='form-check-input' type='radio' value={amount} {...register("lunchAmount", { required: "Please select amount eaten" })} />
                       <label className='form-check-label'>{amount.charAt(0).toUpperCase() + amount.slice(1)} Eaten</label>
                     </div>
                   ))}
@@ -240,7 +240,7 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
                       <input type='time' className='form-control' {...register(`snackEntries.${index}.time`, { required: "Time is required" })} />
                       {errors.snackEntries?.[index]?.time && <span className='text-danger'>{errors.snackEntries[index].time.message}</span>}
                     </td>
-                    <td className='text-center d-flex justify-content-center' style={{ padding: "12px" }}>
+                    <td className='text-center d-flex justify-content-center' style={{ padding: "25px" }}>
                       <button type='button' className='btn btn-danger btn-sm' onClick={() => removeSnack(index)}>
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>
