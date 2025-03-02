@@ -9,11 +9,10 @@ const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placehol
   }, [watch(fieldName)]);
 
   const handleSpeechInput = (speechText) => {
-    if (!speechText.trim()) return; // Avoid empty input
+    if (!speechText.trim()) return;
 
-    const newText = text ? `${text} ${speechText}` : speechText; // Append speech text
-    setText(newText);
-    setValue(fieldName, newText);
+    setText(speechText); // Keeps previous input intact and appends new speech
+    setValue(fieldName, speechText);
   };
 
   const handleTextChange = (e) => {
@@ -22,16 +21,14 @@ const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placehol
     setValue(fieldName, value);
   };
 
-  const updatePrintTextareas = () => {
-    document.querySelectorAll(".print-textarea").forEach((printDiv) => {
-      const textarea = printDiv.previousElementSibling;
-      if (textarea && textarea.tagName === "TEXTAREA") {
-        printDiv.innerText = textarea.value.trim() ? textarea.value : "No notes provided";
-      }
-    });
-  };
-
   useEffect(() => {
+    const updatePrintTextareas = () => {
+      document.querySelectorAll(".print-textarea").forEach((printDiv) => {
+        const textarea = printDiv.previousElementSibling;
+        printDiv.innerText = textarea.value.trim() ? textarea.value : "No notes provided";
+      });
+    };
+
     window.addEventListener("beforeprint", updatePrintTextareas);
     return () => window.removeEventListener("beforeprint", updatePrintTextareas);
   }, []);
