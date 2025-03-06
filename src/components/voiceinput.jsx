@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone, faStop } from "@fortawesome/free-solid-svg-icons";
 
-const SpeechToText = ({ onTextChange }) => {
+const SpeechToText = ({ onTextChange, isTextCleared }) => {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
   const lastTranscript = useRef("");
@@ -36,57 +36,94 @@ const SpeechToText = ({ onTextChange }) => {
     };
   }, []);
 
-  const startListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
+  useEffect(() => {
+    if (isTextCleared) {
+      lastTranscript.current = "";
     }
+  }, [isTextCleared]);
 
-    isManuallyStopped.current = false;
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.continuous = !isMobileOrTablet;
-    recognition.interimResults = true;
-    recognition.lang = "en-GB";
-
-    recognition.onresult = (event) => {
-      let interimTranscripts = "";
-      let finalTranscripts = "";
-
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscripts += event.results[i][0].transcript + " ";
-        } else {
-          interimTranscripts += event.results[i][0].transcript;
-        }
+  const startListening = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Permission granted, proceed with SpeechRecognition
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
       }
 
-      if (finalTranscripts) {
-        lastTranscript.current += finalTranscripts;
-        onTextChange(lastTranscript.current.trim());
-        if (!isMobileOrTablet) {
-          recognition.stop();
-        }
-      } else if (interimTranscripts) {
-        onTextChange(lastTranscript.current + interimTranscripts); // Show live speech text
-      }
-    };
+      isManuallyStopped.current = false;
 
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.continuous = !isMobileOrTablet;
+      recognition.interimResults = true;
+      recognition.lang = "en-GB";
+
+      recognition.onresult = (event) => {
+        let interimTranscripts = "";
+        let finalTranscripts = "";
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscripts += event.results[i][0].transcript + " ";
+          } else {
+            interimTranscripts += event.results[i][0].transcript;
+          }
+        }
+
+        if (finalTranscripts) {
+          lastTranscript.current += finalTranscripts.trim();
+          onTextChange(lastTranscript.current);
+          if (!isMobileOrTablet) {
+            recognition.stop();
+          }
+        } else if (interimTranscripts) {
+          onTextChange(lastTranscript.current + interimTranscripts); // Show live speech text
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        setIsListening(false);
+
+        let errorMessage = "An error occurred during speech recognition. Please try again.";
+
+        switch (event.error) {
+          case "no-speech":
+            errorMessage = "No speech was detected. Please try again.";
+            break;
+          case "audio-capture":
+            errorMessage = "Audio capture failed. Please check your microphone.";
+            break;
+          case "not-allowed":
+            errorMessage = "Microphone access is not allowed. Please check your permissions.";
+            break;
+          case "service-not-allowed":
+            errorMessage = "Speech recognition service is not allowed. Please check your settings.";
+            break;
+          case "bad-grammar":
+            errorMessage = "There was a problem with the speech recognition grammar.";
+            break;
+          default:
+            errorMessage = "An unknown error occurred. Please try again.";
+        }
+
+        alert(errorMessage);
+      };
+
+      recognition.onend = () => {
+        if (!isManuallyStopped.current && !isMobileOrTablet) {
+          recognition.start(); // Restart only on desktop
+        }
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+      setIsListening(true);
+    } catch (error) {
+      console.error("Microphone access denied:", error);
+      alert("Microphone access is required for speech recognition.");
       setIsListening(false);
-      alert("An error occurred during speech recognition. Please try again.");
-    };
-
-    recognition.onend = () => {
-      if (!isManuallyStopped.current && !isMobileOrTablet) {
-        recognition.start(); // Restart only on desktop
-      }
-    };
-
-    recognitionRef.current = recognition;
-    recognition.start();
-    setIsListening(true);
+    }
   };
 
   const stopListening = () => {
