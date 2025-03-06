@@ -9,7 +9,6 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
     { label: "Abbas Alnahari", value: "Abbas Alnahari" },
     { label: "Abdulbaki Hamed", value: "Abdulbaki Hamed" },
     { label: "Adeeb Latif", value: "Adeeb Latif" },
-    { label: "Ahsaan Ul Haq", value: "Ahsaan Ul Haq" },
     { label: "Amie Smith", value: "Amie Smith" },
     { label: "Amina Adam", value: "Amina Adam" },
     { label: "Ammar Abdulrazaq", value: "Ammar Abdulrazaq" },
@@ -18,11 +17,9 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
     { label: "Hamza Razaq", value: "Hamza Razaq" },
     { label: "Imaran Hamed", value: "Imaran Hamed" },
     { label: "Ishwaq Said", value: "Ishwaq Said" },
-    { label: "Kevin Achchillage", value: "Kevin Achchillage" },
     { label: "Mohamad Abdulrazaq", value: "Mohamad Abdulrazaq" },
     { label: "Mohammad Harkal", value: "Mohammad Harkal" },
     { label: "Mueen Zaid", value: "Mueen Zaid" },
-    { label: "Rubia Ahsan", value: "Rubia Ahsan" },
     { label: "Saad Qamar", value: "Saad Qamar" },
     { label: "Sajid Rehman", value: "Sajid Rehman" },
     { label: "Sami Yasin", value: "Sami Yasin" },
@@ -63,7 +60,6 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
     { label: "Harmon Hayer", value: "Harmon Hayer" },
     { label: "Hamda Safa", value: "Hamda Safa" },
     { label: "Ellie Chambers", value: "Ellie Chambers" },
-    { label: "", value: "" },
   ].sort((a, b) => a.label.localeCompare(b.label));
   return (
     <div className='intro-section>'>

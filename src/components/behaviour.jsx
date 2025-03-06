@@ -14,7 +14,7 @@ const BehaviourSection = ({ watch, register, errors, renderCheckboxes, setValue 
           <div className='col-lg-6 col-md-12' key={index}>
             <div className='card p-3'>
               <h5 className='card-title'>{time.charAt(0).toUpperCase() + time.slice(1)} Mood</h5>
-              {renderCheckboxes(["Settled Mood 😊", "Un-Settled Mood 😕", "Calm Mood 😌", "Happy Mood 😁", "Neutral Mood 😐", "Excited Mood 🤩", "Normal Mood 🙂", "Anxious Mood 😨", "Un-Happy Mood 😔", "Upset Mood 😠", "Tired Mood 🥱", "Agitated Mood 😤"], `behaviour.${time}`, "At least one checkbox must be selected")}
+              {renderCheckboxes(["Settled Mood 😊", "Un-Settled Mood 😕", "Calm Mood 😌", "Happy Mood 😁", "Un-Happy Mood 😔", "Excited Mood 🤩", "Normal Mood 🙂", "Neutral Mood 😐", "Anxious Mood 😨", "Upset Mood 😠", "Tired Mood 🥱", "Agitated Mood 😤"], `behaviour.${time}`, "At least one checkbox must be selected")}
             </div>
           </div>
         ))}

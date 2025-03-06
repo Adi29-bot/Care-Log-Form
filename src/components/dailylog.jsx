@@ -52,7 +52,7 @@ const DailyLogForm = () => {
     setShowSections((prev) => ({ ...prev, [section]: show }));
   };
 
-  const renderCheckboxes = (options, name, validationMessage) => {
+  const renderCheckboxes = (options, name, validationMessage, icons = []) => {
     const isAnyChecked = options.some((option) => watch(`${name}.${option}`));
 
     return (
@@ -63,6 +63,7 @@ const DailyLogForm = () => {
               <input className='form-check-input me-2 flex-shrink-0' type='checkbox' {...register(`${name}.${option}`)} id={`${name}-${index}`} />
               <label className='form-check-label' htmlFor={`${name}-${index}`} style={{ minWidth: "120px", whiteSpace: "nowrap" }}>
                 {option}
+                {icons[index] && <img src={icons[index]} alt='' style={{ width: "25px", height: "25px", marginRight: "5px" }} />}
               </label>
             </div>
           ))}
@@ -117,7 +118,7 @@ const DailyLogForm = () => {
   }, [reset]);
 
   window.onbeforeunload = (event) => {
-    sessionStorage.setItem("resetForm", "true"); // Set the reset flag
+    sessionStorage.setItem("resetForm", "true");
     const e = event || window.event;
     e.preventDefault();
     if (e) {
@@ -154,6 +155,9 @@ const DailyLogForm = () => {
       <div className='mt-3 d-flex justify-content-center'>
         <button type='button' className='btn btn-primary' onClick={handleSave}>
           Save
+        </button>
+        <button type='button' className='ms-3 btn btn-secondary' onClick={handleReset}>
+          New
         </button>
       </div>
       <ScrollButton />

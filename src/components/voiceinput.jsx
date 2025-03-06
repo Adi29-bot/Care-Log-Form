@@ -53,7 +53,7 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
     const recognition = new SpeechRecognition();
     recognition.continuous = !isMobileOrTablet;
     recognition.interimResults = true;
-    recognition.lang = "en-US";
+    recognition.lang = "en-GB";
 
     recognition.onresult = (event) => {
       let interimTranscripts = "";
@@ -74,7 +74,7 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
           recognition.stop();
         }
       } else if (interimTranscripts) {
-        onTextChange(lastTranscript.current + interimTranscripts); // Show live speech text
+        onTextChange(lastTranscript.current + interimTranscripts);
       }
     };
 
@@ -86,7 +86,7 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
 
     recognition.onend = () => {
       if (!isManuallyStopped.current && !isMobileOrTablet) {
-        recognition.start(); // Restart only on desktop
+        recognition.start();
       }
     };
 

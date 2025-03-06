@@ -47,6 +47,11 @@ td {
   vertical-align: middle;
 }
 
+.add {
+  display: block;
+  width: 100%;
+}
+
 /* Media Queries */
 @media (min-width: 991px) and(max-width: 1224px) {
   .col-lg-6 .form-check-label {
