@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone, faStop } from "@fortawesome/free-solid-svg-icons";
 
-const SpeechToText = ({ onTextChange }) => {
+const SpeechToText = ({ onTextChange, isTextCleared }) => {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
   const lastTranscript = useRef("");
@@ -36,6 +36,12 @@ const SpeechToText = ({ onTextChange }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isTextCleared) {
+      lastTranscript.current = "";
+    }
+  }, [isTextCleared]);
+
   const startListening = () => {
     if (recognitionRef.current) {
       recognitionRef.current.stop();
@@ -47,7 +53,7 @@ const SpeechToText = ({ onTextChange }) => {
     const recognition = new SpeechRecognition();
     recognition.continuous = !isMobileOrTablet;
     recognition.interimResults = true;
-    recognition.lang = "en-GB";
+    recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
       let interimTranscripts = "";
@@ -62,8 +68,8 @@ const SpeechToText = ({ onTextChange }) => {
       }
 
       if (finalTranscripts) {
-        lastTranscript.current += finalTranscripts;
-        onTextChange(lastTranscript.current.trim());
+        lastTranscript.current += finalTranscripts.trim();
+        onTextChange(lastTranscript.current);
         if (!isMobileOrTablet) {
           recognition.stop();
         }

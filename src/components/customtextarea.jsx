@@ -3,22 +3,28 @@ import SpeechToText from "./voiceinput";
 
 const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placeholder }) => {
   const [text, setText] = useState(watch(fieldName) || "");
+  const [isTextCleared, setIsTextCleared] = useState(false);
 
   useEffect(() => {
-    setText(watch(fieldName) || "");
-  }, [watch(fieldName)]);
+    const subscription = watch((value) => {
+      setText(value[fieldName] || "");
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, fieldName]);
 
   const handleSpeechInput = (speechText) => {
     if (!speechText.trim()) return;
-
-    setText(speechText); // Keeps previous input intact and appends new speech
+    setText(speechText);
     setValue(fieldName, speechText);
+    setIsTextCleared(false);
   };
 
   const handleTextChange = (e) => {
     const value = e.target.value;
     setText(value);
+    console.log("text value " + value);
     setValue(fieldName, value);
+    setIsTextCleared(!value);
   };
 
   useEffect(() => {
@@ -49,8 +55,7 @@ const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placehol
         }}
       />
       <div className='print-textarea d-none d-print-block'>{text || "No notes provided"}</div>
-
-      <SpeechToText className='mt-3' onTextChange={handleSpeechInput} />
+      <SpeechToText className='mt-3' onTextChange={handleSpeechInput} isTextCleared={isTextCleared} />
       {errors[fieldName] && <span className='text-danger'>{errors[fieldName].message}</span>}
     </div>
   );
