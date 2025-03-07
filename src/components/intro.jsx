@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import Creatable from "react-select/creatable";
 
-const ServiceUser = ({ register, errors, control, renderSelect }) => {
+const ServiceUser = ({ register, errors, renderSelect, control }) => {
   const staffOptions = [
     { label: "Abhishek Ghadge", value: "Abhishek Ghadge" },
     { label: "Abdul Daim", value: "Abdul Daim" },
@@ -14,7 +14,7 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
     { label: "Ammar Abdulrazaq", value: "Ammar Abdulrazaq" },
     { label: "Daniel Edwards", value: "Daniel Edwards" },
     { label: "Dawn Amphlett", value: "Dawn Amphlett" },
-    { label: "Hamza Razaq", value: "Hamza Razaq" },
+    { label: "Hamza Abdul Rrazaq", value: "Hamza Abdul Rrazaq" },
     { label: "Imaran Hamed", value: "Imaran Hamed" },
     { label: "Ishwaq Said", value: "Ishwaq Said" },
     { label: "Mohamad Abdulrazaq", value: "Mohamad Abdulrazaq" },
@@ -61,6 +61,23 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
     { label: "Hamda Safa", value: "Hamda Safa" },
     { label: "Ellie Chambers", value: "Ellie Chambers" },
   ].sort((a, b) => a.label.localeCompare(b.label));
+
+  const [showAdditionalStaff, setShowAdditionalStaff] = useState(false);
+  const [additionalStaffValue, setAdditionalStaffValue] = useState("");
+
+  const modifiedStaffOptions = [...staffOptions, { label: "Add another staff name", value: "add_staff" }];
+
+  const handleStaffChange = (value) => {
+    if (value === "add_staff") {
+      setShowAdditionalStaff(true);
+      setAdditionalStaffValue("");
+    }
+  };
+
+  const handleRemoveAdditionalStaff = () => {
+    setShowAdditionalStaff(false);
+    setAdditionalStaffValue("");
+  };
   return (
     <div className='intro-section>'>
       <div className='row'>
@@ -68,16 +85,7 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
           <label className='mb-0 fw-bold text-primary'>
             <strong>Service User</strong>
           </label>
-          <Controller
-            name='serviceUser'
-            control={control}
-            rules={{ required: "Service User is required" }}
-            render={({ field }) => (
-              <div className='react-select-container'>
-                <Creatable {...field} options={clientOptions} isClearable isSearchable />
-              </div>
-            )}
-          />
+          {renderSelect("serviceUser", clientOptions, { required: "Service User is required" })}
           {errors.serviceUser && <span className='text-danger'>{errors.serviceUser.message}</span>}
         </div>
 
@@ -91,13 +99,56 @@ const ServiceUser = ({ register, errors, control, renderSelect }) => {
             rules={{ required: "Staff Completing Form is required" }}
             render={({ field }) => (
               <div className='react-select-container'>
-                <Creatable {...field} options={staffOptions} isClearable isSearchable />
+                <Creatable
+                  {...field}
+                  options={modifiedStaffOptions}
+                  isClearable
+                  isSearchable
+                  onChange={(selectedOption) => {
+                    field.onChange(selectedOption);
+                    handleStaffChange(selectedOption?.value);
+                  }}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                />
               </div>
             )}
           />
           {errors.staffCompleting && <span className='text-danger'>{errors.staffCompleting.message}</span>}
         </div>
       </div>
+
+      {showAdditionalStaff && (
+        <div className='row mt-2'>
+          <div className='col-md-6 intro-flex'>
+            <label className='mb-0 fw-bold text-primary'>
+              <strong>Staff Completing Form 2</strong>
+            </label>
+            <Controller
+              name='additionalStaff'
+              control={control}
+              rules={{ required: "Staff Completing Form is required" }}
+              render={({ field }) => (
+                <div className='react-select-container'>
+                  <Creatable
+                    {...field}
+                    options={staffOptions}
+                    isClearable
+                    isSearchable
+                    onChange={(selectedOption) => {
+                      field.onChange(selectedOption);
+                      setAdditionalStaffValue(selectedOption?.value);
+                    }}
+                  />
+                </div>
+              )}
+            />
+            <div className='text-danger' style={{ marginTop: "5px", cursor: "pointer" }} onClick={handleRemoveAdditionalStaff}>
+              Remove Additional Staff
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className='row mt-3'>
         {["pickupTime", "arrivalTime", "dropoffTime"].map((time, index) => (

@@ -27,7 +27,7 @@ const ParentsSection = ({ watch, showSections, handleToggle, register, errors, s
           <label>
             <strong>Mood</strong>
           </label>
-          <div className='row'>{renderCheckboxes(["Settled Mood😊", "Un-Settled Mood😕", "Agitated😠", "Positive Behaviour👍", "Negative Behaviour👎", "Aggressive😡", "Good Sleep😴", "Not a Good Sleep😫", "Have Breakfast🍳", "No Breakfast🚫🍳", "Cooperative🤝", "Non-Cooperative🙅"], "mood", "At least one checkbox must be selected")}</div>
+          <div className='row'>{renderCheckboxes(["Settled Mood😊", "Un-Settled Mood😕", "Agitated😠", "Positive Behaviour👍", "Negative Behaviour👎", "Aggressive😡", "Good Sleep😴", "Not a Good Sleep😫", "Have Breakfast🍳", "No Breakfast🙅🍳", "Cooperative🤝", "Non-Cooperative😒"], "mood", "At least one checkbox must be selected")}</div>
           {errors.mood && <span className='text-danger'>{errors.mood.message}</span>}
         </div>
       )}

@@ -29,8 +29,7 @@ const DailyLogForm = () => {
   } = useForm({
     defaultValues: {
       date: new Date().toISOString().split("T")[0],
-      officeUseEntries: [{ clientName: "", clientSignature: "", clientDate: "", logName: "", logSignature: "", logDate: "" }],
-      liquidEntries: [{ amount: "1" }],
+      officeUseEntries: [{ clientName: "", clientSignature: "", clientDate: "" }],
     },
   });
 
@@ -103,7 +102,7 @@ const DailyLogForm = () => {
 
     if (resetFlag === "true") {
       handleReset();
-      sessionStorage.removeItem("resetForm"); // Clear the flag
+      sessionStorage.removeItem("resetForm");
     } else {
       const savedData = localStorage.getItem("dailyLogFormData");
       if (savedData) {
@@ -151,7 +150,7 @@ const DailyLogForm = () => {
       <FeedbackSection watch={watch} register={register} errors={errors} setValue={setValue} />
       <OfficeUseSection register={register} errors={errors} control={control} />
 
-      {/* Buttons to Save, Download, Print, and Reset */}
+      {/* Buttons to Save and Reset */}
       <div className='mt-3 d-flex justify-content-center'>
         <button type='button' className='btn btn-primary' onClick={handleSave}>
           Save

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, register, errors, control, setValue }) => {
-  const { fields: liquidFields, append: appendLiquid, remove: removeLiquid } = useFieldArray({ control, name: "liquidIntakeEntries" });
+  const { fields: liquidFields, append: appendLiquid, remove: removeLiquid } = useFieldArray({ control, name: "liquidEntries" });
   const { fields: snackFields, append: appendSnack, remove: removeSnack } = useFieldArray({ control, name: "snackEntries" });
 
   return (
@@ -228,9 +228,9 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
                       {renderSelect(
                         `snackEntries.${index}.name`,
                         [
-                          { value: "apple", label: "Apple" },
-                          { value: "banana", label: "Banana" },
-                          { value: "cookies", label: "Cookies" },
+                          { value: "popcorn", label: "Popcorn" },
+                          { value: "crips", label: "Crips" },
+                          { value: "mixed fruit", label: "Mixed Fruit" },
                         ],
                         { required: "Snack name is required" }
                       )}
