@@ -52,7 +52,7 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
-    recognition.interimResults = true;
+    recognition.interimResults = false;
     recognition.lang = "en-GB";
 
     recognition.onresult = (event) => {
