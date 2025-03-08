@@ -96,7 +96,7 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
 
     recognition.onend = () => {
       console.log("Speech recognition ended.");
-      if (!isManuallyStopped.current && !isMobileOrTablet) {
+      if (!isManuallyStopped.current) {
         console.log("Recognition restarting automatically.");
         recognition.start();
       } else {
