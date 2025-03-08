@@ -56,32 +56,36 @@ const SpeechToText = ({ onTextChange, isTextCleared }) => {
     recognition.lang = "en-GB";
 
     recognition.onresult = (event) => {
-      let interimTranscripts = "";
+      // let interimTranscripts = "";
       let finalTranscripts = "";
 
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           finalTranscripts += event.results[i][0].transcript + " ";
-        } else {
-          interimTranscripts += event.results[i][0].transcript;
         }
+        // else {
+        //   interimTranscripts += event.results[i][0].transcript;
+        // }
       }
 
       if (finalTranscripts) {
-        lastTranscript.current += finalTranscripts.trim();
-        onTextChange(lastTranscript.current);
+        // lastTranscript.current += finalTranscripts.trim();
+
+        onTextChange(finalTranscripts.trim());
+        lastTranscript.current = "";
         if (!isMobileOrTablet) {
           recognition.stop();
         }
-      } else if (interimTranscripts) {
-        onTextChange(lastTranscript.current + interimTranscripts);
       }
+      // else if (interimTranscripts) {
+      //   onTextChange(lastTranscript.current + interimTranscripts);
+      // }
     };
 
     recognition.onerror = (event) => {
       console.error("Speech recognition error:", event.error);
       setIsListening(false);
-      alert("An error occurred during speech recognition. Please try again.");
+      // alert("An error occurred during speech recognition. Please try again.");
     };
 
     recognition.onend = () => {

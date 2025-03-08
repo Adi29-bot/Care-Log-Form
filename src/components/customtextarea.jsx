@@ -14,11 +14,19 @@ const CustomTextarea = ({ register, setValue, watch, fieldName, errors, placehol
 
   const handleSpeechInput = (speechText) => {
     if (!speechText.trim()) return;
-    setText(speechText);
-    setValue(fieldName, speechText);
+
+    const textarea = document.querySelector(`textarea[name="${fieldName}"]`);
+    if (textarea === null) return;
+    const cursorPosition = textarea.selectionStart;
+
+    setText((prevText) => {
+      const newText = prevText.substring(0, cursorPosition) + speechText + prevText.substring(cursorPosition);
+
+      return newText;
+    });
+
     setIsTextCleared(false);
   };
-
   const handleTextChange = (e) => {
     const value = e.target.value;
     setText(value);
