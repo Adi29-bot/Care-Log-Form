@@ -28,7 +28,7 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
               onChange={() => {
                 handleToggle("liquid", true);
                 if (liquidFields.length === 0) {
-                  appendLiquid({ type: "water", amount: 1, unit: "", time: "" });
+                  appendLiquid({ type: "", amount: 1, unit: "", time: "" });
                 }
               }}
             />
@@ -49,7 +49,7 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
             <table className='table table-bordered table-striped table-info ' style={{ tableLayout: "fixed", width: "60%" }}>
               <thead className='text-center table-dark align-middle'>
                 <tr>
-                  <th style={{ width: "150px" }}>Liquid Type</th>
+                  <th style={{ width: "200px" }}>Liquid Type</th>
                   <th style={{ width: "100px" }}>Amount</th>
                   <th style={{ width: "200px" }}>Unit</th>
                   <th style={{ width: "200px" }}>Time</th>
@@ -60,11 +60,17 @@ const NutritionSection = ({ watch, showSections, handleToggle, renderSelect, reg
                 {liquidFields.map((entry, index) => (
                   <tr key={entry.id}>
                     <td>
-                      <select className='form-control' {...register(`liquidEntries.${index}.type`, { required: "Liquid Type is required" })}>
-                        <option value='water'>Water</option>
-                        <option value='juice'>Juice</option>
-                        <option value='other'>Any Other</option>
-                      </select>
+                      {renderSelect(
+                        `liquidEntries.${index}.type`,
+                        [
+                          { value: "Water", label: "Water" },
+                          { value: "Juice", label: "Juice" },
+                          { value: "Tea", label: "Tea" },
+                          { value: "Coffee", label: "Coffee" },
+                          { value: "Any Other", label: "Any Other" },
+                        ],
+                        { required: "Liquid Type is required" }
+                      )}
                       {errors.liquidEntries?.[index]?.type && <span className='text-danger'>{errors.liquidEntries[index].type.message}</span>}
                     </td>
                     <td>
