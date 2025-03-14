@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Creatable from "react-select/creatable";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../images/logo.jpg";
+import logo from "../images/logo.png";
 import ScrollButton from "./scrollbutton";
 import ServiceUser from "./intro";
 import ParentsSection from "./parents-carer";
@@ -129,9 +129,6 @@ const DailyLogForm = () => {
   return (
     <form className='container-fluid mt-3 mb-3' id='myForm'>
       <div className='row align-items-center'>
-        <div className='col-md-12'>
-          <img src={logo} alt='Logo' width='160' className='img-fluid rounded mx-auto d-block float-end' style={{ maxHeight: "50px" }} />
-        </div>
         <div className=' text-center'>
           <h2 style={{ marginBottom: "5px" }}>Daily Log Form</h2>
         </div>
